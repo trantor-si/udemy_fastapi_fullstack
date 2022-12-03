@@ -14,14 +14,14 @@ class Database:
     self.engine = self.get_engine()
 
   def get_engine(self):
-    engine = None
-
+    self.engine = None
     self.url = self.db_connection.get_url()
     self.connect_args = self.db_connection.get_connect_args()
 
     if self.connect_args is None:
       self.engine = create_engine(self.url)
     else:
+      print(self.url, self.connect_args)
       self.engine = create_engine(self.url, connect_args={"check_same_thread": False})
 
     if self.engine is not None:
@@ -32,14 +32,14 @@ class Database:
 
     return self.engine
 
-# # define the current database 
-# def new_database(type : str = None):
-#   return Database(type)
+# define the current database 
+def new_database(type : str = None):
+  global current_database
+  current_database = Database(type)
 
-# current_database = new_database('sqlite')
-# def get_session():
-#   try:
-#       current_database.session = current_database.SessionLocal()
-#       yield current_database.session
-#   finally:
-#       current_database.session.close()
+def get_session():
+  try:
+      current_database.session = current_database.SessionLocal()
+      yield current_database.session
+  finally:
+      current_database.session.close()

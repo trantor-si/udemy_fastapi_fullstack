@@ -1,32 +1,32 @@
+from datetime import datetime, timedelta
+
 from sqlalchemy.orm import Session
 
-from domain.models.user import User
-from domain.models.item import Todo
+from domain.models.todos import TodosModel
 from domain.models.users import UsersModel
 
 
-def get_users(db: Session):
-    return db.query(User).all()
+def db_get_users(db: Session):
+    return db.query(UsersModel).all()
 
-def get_user(db: Session, user_id: int):
-    return db.query(User).filter(User.id == user_id).first()
+def db_get_user(db: Session, user_id: int):
+    return db.query(UsersModel).filter(UsersModel.id == user_id).first()
 
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(User).filter(User.email == email).first()
+def db_get_user_by_email(db: Session, email: str):
+    return db.query(UsersModel).filter(UsersModel.email == email).first()
 
-def create_user(db: Session, user: User):
+def db_create_user(db: Session, user: UsersModel):
     db.add(user)
     db.commit()
     db.refresh(user)
     return user
 
-
-def create_user_todo(db: Session, todo: Todo):
-    db.add(todo)
+def db_create_user_todo(db: Session, todo_model: TodosModel):
+    db.add(todo_model)
     db.commit()
-    db.refresh(todo)
-    return todo
+    db.refresh(todo_model)
+    return todo_model
 
 def db_exist_user(username: str, email: str, db : Session) -> bool:
     exist_username = db.query(UsersModel).filter(UsersModel.username == username).first()

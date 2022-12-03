@@ -2,11 +2,20 @@ import os
 from enum import Enum
 
 from dotenv import load_dotenv
-from database import Database
 
 load_dotenv()
 
 DBENV = {
+  'sqlite': {
+    'type': "sqlite",
+    'prefix': "sqlite",
+    'user': None,
+    'password': None,
+    'host': None,
+    'port': None,
+    'database': os.getenv('SQLITE_DATABASE', 'sqlite.db'),
+    'connect_args': os.getenv('SQLITE_CONNECT_ARGS', {"check_same_thread": False}),
+  },
   'postgresql': {
     'type': "postgresql",
     'prefix': "postgresql",
@@ -16,16 +25,6 @@ DBENV = {
     'port': os.getenv('POSTGRESQL_PORT', '5432'),
     'database': os.getenv('POSTGRESQL_INSTANCE', 'postgres'),
     'connect_args': None,
-  },
-  'sqlite': {
-    'type': "sqlite",
-    'prefix': "sqlite",
-    'user': None,
-    'password': None,
-    'host': None,
-    'port': None,
-    'database': os.getenv('SQLITE_INSTANCE', 'sqlite.db'),
-    'connect_args': os.getenv('SQLITE_CONNECT_ARGS', {"check_same_thread": False}),
   },
   'mysql': {
     'type': "mysql",
@@ -70,11 +69,15 @@ class DBConnection:
       self.type = type
     
     self.env = DBENV[self.type] if self.type in DBENV else None
+  
+  def get_connect_args(self):
+    return self.env['connect_args']
 
   def get_connect_format(self):  
     self.connect_format = None
     if self.type == 'sqlite':
       self.connect_format = "{}:///{}"
+      print(self.connect_format)
     elif self.type == "postgresql":
       self.connect_format = '{}://{}:{}@{}:{}/{}'
     elif self.type == "mysql":
@@ -90,6 +93,7 @@ class DBConnection:
       if self.type == 'sqlite':
         url = self.connect_format.format( \
           self.env['prefix'], self.env['database'])
+        print(url)
       elif self.type == "postgresql":
         url = self.connect_format.format ( \
             self.env['prefix'], self.env['user'], \
@@ -109,15 +113,3 @@ class DBConnection:
       raise Exception('Invalid database type: [{}].'.format(self.type))
 
     return url
-
-  # define the current database 
-def new_database(type : str = None):
-  return Database(type)
-
-current_database = new_database('sqlite')
-def get_session():
-  try:
-      current_database.session = current_database.SessionLocal()
-      yield current_database.session
-  finally:
-      current_database.session.close()

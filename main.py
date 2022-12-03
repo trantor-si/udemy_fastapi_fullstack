@@ -1,10 +1,10 @@
-from fastapi import FastAPI, Depends
-import domain.models.models as models
-from database import engine
-from routers import auth, todos
+#from database import engine
+#from routers import auth, todos
+import uvicorn
+from fastapi import FastAPI
 from starlette.staticfiles import StaticFiles
 
-import uvicorn
+#import domain.models.models as models
 from config.server import port
 from controllers import app_routes
 
@@ -15,7 +15,7 @@ app = FastAPI(
   openapi_url="/api"
 )
 
-models.Base.metadata.create_all(bind=engine)
+#models.Base.metadata.create_all(bind=engine)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

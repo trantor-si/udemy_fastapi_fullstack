@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from domain.models.generic import GenericBase
 
+
 class TodosModel(GenericBase):
     __tablename__ = "todos"
 
@@ -13,4 +14,4 @@ class TodosModel(GenericBase):
     complete = Column(Boolean, default=False)
     owner_id = Column(Integer, ForeignKey("users.id"))
 
-    owner = relationship("Users", back_populates="todos")
+    owner = relationship("UsersModel", back_populates="todos")
