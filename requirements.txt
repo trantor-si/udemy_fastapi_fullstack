@@ -94,4 +94,3 @@ watchgod==0.8.2
 wcwidth==0.2.5
 websockets==8.1
 python-dotenv==0.21.0
-```
