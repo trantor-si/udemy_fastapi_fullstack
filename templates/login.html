@@ -8,7 +8,7 @@
         <div class="card-body">
 
             {% if msg %}
-            {% if msg == 'Logout Successful' or msg == 'User successfully created' %}
+            {% if msg == 'Logout Successful' or msg == 'User successfully created' or msg == "User password successfully changed" %}
             <div class="alert alert-success" role="alert">
                 {{msg}}
             </div>
@@ -22,12 +22,21 @@
             <form method="POST" action="/auth">
                 <div class="form-group">
                     <label>Username</label>
+                    {% if username %}
+                    <input type="text" class="form-control"
+                           name="email" required value="{{username}}">
+                    {% else %}
                     <input type="text" class="form-control"
                            name="email" required>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label>Password</label>
+                    {% if username %}
+                    <input type="password" class="form-control" name="password" autofocus required>
+                    {% else %}
                     <input type="password" class="form-control" name="password" required>
+                    {% endif %}
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>

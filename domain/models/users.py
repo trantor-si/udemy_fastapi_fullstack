@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 from domain.models.generic import GenericBase
 
 
-class UsersModel(GenericBase):
+class Users(GenericBase):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
@@ -15,4 +15,4 @@ class UsersModel(GenericBase):
     last_name = Column(String)
     is_active = Column(Boolean, default=True)
 
-    todos = relationship("TodosModel", back_populates="owner")
+    todos = relationship("Todos", back_populates="owner")

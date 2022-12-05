@@ -1,1 +1,1 @@
-./main-app.sh
+clear && ./main-app.sh

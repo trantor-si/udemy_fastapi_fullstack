@@ -1,10 +1,13 @@
 import os
 
-from controllers.routers import authentication, todos, users
+# from controllers.routers import authentication, todos, users
+from controllers.routers import auth, todos, user
 
 app_routes = [
-    users.router,
+    # authentication.router,
+    # users.router,
+    auth.router,
     todos.router,
-    authentication.router,
+    user.router
 ]
 

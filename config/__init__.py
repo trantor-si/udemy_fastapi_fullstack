@@ -77,7 +77,6 @@ class DBConnection:
     self.connect_format = None
     if self.type == 'sqlite':
       self.connect_format = "{}:///{}"
-      print(self.connect_format)
     elif self.type == "postgresql":
       self.connect_format = '{}://{}:{}@{}:{}/{}'
     elif self.type == "mysql":
@@ -93,7 +92,6 @@ class DBConnection:
       if self.type == 'sqlite':
         url = self.connect_format.format( \
           self.env['prefix'], self.env['database'])
-        print(url)
       elif self.type == "postgresql":
         url = self.connect_format.format ( \
             self.env['prefix'], self.env['user'], \

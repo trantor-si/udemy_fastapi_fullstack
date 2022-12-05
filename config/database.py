@@ -1,3 +1,5 @@
+import os
+
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -21,7 +23,6 @@ class Database:
     if self.connect_args is None:
       self.engine = create_engine(self.url)
     else:
-      print(self.url, self.connect_args)
       self.engine = create_engine(self.url, connect_args={"check_same_thread": False})
 
     if self.engine is not None:
@@ -43,3 +44,5 @@ def get_session():
       yield current_database.session
   finally:
       current_database.session.close()
+
+new_database(os.getenv('CURRENT_DATABASE_TYPE', 'sqlite'))

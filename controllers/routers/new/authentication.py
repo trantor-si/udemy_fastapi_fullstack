@@ -69,7 +69,7 @@ def get_login_response(request_dict: dict):
 
 
 def get_home_response(request_dict: dict):
-    return templates.TemplateResponse(os.getenv('HOME_HTML', 'login.html'), request_dict)
+    return templates.TemplateResponse(os.getenv('HOME_HTML', 'home.html'), request_dict)
 
 
 def get_register_response(request_dict: dict):
